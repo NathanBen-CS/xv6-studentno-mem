@@ -5,6 +5,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "kalloc.h"
 #include "vm.h"
 
 uint64
@@ -106,4 +107,62 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+uint64 sys_getmemstats(void)
+{
+    struct memstats stats;
+
+    if (student_stats(&stats) < 0)
+        return -1;
+
+    uint64 addr;
+    argaddr(0, &addr); // just pass pointer, don't assign return value
+
+    if (copyout(myproc()->pagetable, addr, (char*)&stats, sizeof(stats)) < 0)
+        return -1;
+
+    return 0;
+}
+
+// syscall: void* student_malloc(uint size)
+uint64
+sys_student_malloc(void)
+{
+    int size;
+    argint(0, &size);               // pulled out
+    if (size <= 0)
+        return (uint64)0;
+    return (uint64)student_malloc((uint)size);
+}
+
+// syscall: void student_free(void *ptr)
+uint64
+sys_student_free(void)
+{
+    uint64 addr;
+    argaddr(0, &addr);             // pulled out
+    if (addr == 0)
+        return -1;
+    student_free((void*)addr);
+    return 0;
+}
+
+// syscall: int student_stats(struct memstats *out)
+uint64
+sys_student_stats(void)
+{
+    uint64 addr;
+    argaddr(0, &addr);             // pulled out
+    if (addr == 0)
+        return -1;
+
+    struct memstats stats;
+    if(student_stats(&stats) < 0)
+        return -1;
+
+    if(copyout(myproc()->pagetable, addr, (char*)&stats, sizeof(stats)) < 0)
+        return -1;
+
+    return 0;
 }

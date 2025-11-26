@@ -20,3 +20,7 @@
 #define SYS_link   19
 #define SYS_mkdir  20
 #define SYS_close  21
+#define SYS_getmemstats  22
+#define SYS_student_malloc 23
+#define SYS_student_free  24
+#define SYS_student_stats  25

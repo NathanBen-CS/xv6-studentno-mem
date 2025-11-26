@@ -42,3 +42,7 @@ entry("getpid");
 entry("sbrk");
 entry("pause");
 entry("uptime");
+entry("getmemstats");
+entry("student_free");
+entry("student_malloc");
+entry("student_stats");

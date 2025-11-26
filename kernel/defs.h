@@ -8,6 +8,7 @@ struct spinlock;
 struct sleeplock;
 struct stat;
 struct superblock;
+struct memstats;
 
 // bio.c
 void            binit(void);
@@ -59,6 +60,10 @@ void            ireclaim(int);
 void*           kalloc(void);
 void            kfree(void *);
 void            kinit(void);
+void            student_init(void);
+void*           student_malloc(uint size);
+void            student_free(void *ptr);
+int             student_stats(struct memstats *out);
 
 // log.c
 void            initlog(int, struct superblock*);
