@@ -130,7 +130,7 @@ uint64
 sys_student_malloc(void)
 {
     int size;
-    argint(0, &size);               // pulled out
+    argint(0, &size);         
     if (size <= 0)
         return (uint64)0;
     return (uint64)student_malloc((uint)size);
@@ -141,7 +141,7 @@ uint64
 sys_student_free(void)
 {
     uint64 addr;
-    argaddr(0, &addr);             // pulled out
+    argaddr(0, &addr);             
     if (addr == 0)
         return -1;
     student_free((void*)addr);
@@ -153,7 +153,7 @@ uint64
 sys_student_stats(void)
 {
     uint64 addr;
-    argaddr(0, &addr);             // pulled out
+    argaddr(0, &addr);             
     if (addr == 0)
         return -1;
 
